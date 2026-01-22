@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Recordator Munerum</string>
+	<string name="widget_complete">Completar</string>
+	<string name="widget_open_app">Abrir app</string>
+</resources>

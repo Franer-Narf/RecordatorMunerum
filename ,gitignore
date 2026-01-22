@@ -1,0 +1,29 @@
+# Gradle
+.gradle/
+build/
+
+# Local config
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Mac/Windows
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Kotlin/Java compile outputs
+out/
+
+# Keystore (por si acaso)
+*.jks
+*.keystore
+
+# Generated
+captures/
+.externalNativeBuild/
+.cxx/
