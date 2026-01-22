@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -46,6 +47,14 @@ public class EditRegistratioActivity extends AppCompatActivity {
         loadIfEdit();
 
         btnSave.setOnClickListener(v -> onSave());
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.repeat_weeks_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWeeks.setAdapter(adapter);
     }
 
     private void initViews() {
@@ -82,6 +91,7 @@ public class EditRegistratioActivity extends AppCompatActivity {
         editMinute.setText(String.valueOf(r.getMinute()));
 
         String days = r.getWeekDays();
+        if (days == null) days = "";
 
         cbMon.setChecked(days.contains("1"));
         cbTue.setChecked(days.contains("2"));
@@ -91,7 +101,10 @@ public class EditRegistratioActivity extends AppCompatActivity {
         cbSat.setChecked(days.contains("6"));
         cbSun.setChecked(days.contains("7"));
 
-        spinnerWeeks.setSelection(r.getRepeatEveryWeeks() - 1);
+        int v = r.getRepeatEveryWeeks();   // 0..4
+        if (v < 0) v = 0;
+        if (v > 4) v = 4;
+        spinnerWeeks.setSelection(v);
     }
 
     private void onSave() {
@@ -147,9 +160,7 @@ public class EditRegistratioActivity extends AppCompatActivity {
 
         registratio.setWeekDays(buildWeekDays());
 
-        registratio.setRepeatEveryWeeks(
-                spinnerWeeks.getSelectedItemPosition() + 1
-        );
+        registratio.setRepeatEveryWeeks(spinnerWeeks.getSelectedItemPosition());
 
         return true;
     }

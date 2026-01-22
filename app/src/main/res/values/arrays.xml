@@ -1,0 +1,9 @@
+<resources>
+    <string-array name="repeat_weeks_options">
+        <item>No repetir por semanas</item>   <!-- 0 -->
+        <item>Cada semana</item>              <!-- 1 -->
+        <item>Cada 2 semanas</item>           <!-- 2 -->
+        <item>Cada 3 semanas</item>           <!-- 3 -->
+        <item>Semanas alternas</item>         <!-- 4 (tu caso especial) -->
+    </string-array>
+</resources>
