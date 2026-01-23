@@ -25,6 +25,9 @@ public class RegistratioMapper {
 
     // Entity → Modelo (usar en la app)
     public static Registratio toModel(RegistratioEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return new Registratio(
                 entity.id,
                 entity.titulus,
