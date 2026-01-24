@@ -14,7 +14,7 @@ import nc.instrumentum.recordatormunerum.data.room.entity.RegistratioEntity;
 public interface RegistratioDao {
 
     @Insert
-    void insert(RegistratioEntity entity);
+    long insert(RegistratioEntity entity);
 
     @Query("SELECT * FROM registratio WHERE activa = 1")
     List<RegistratioEntity> getActivas();

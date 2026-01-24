@@ -44,9 +44,6 @@ public class EditRegistratioActivity extends AppCompatActivity {
         repository = new RegistratioRepository(this);
 
         initViews();
-        loadIfEdit();
-
-        btnSave.setOnClickListener(v -> onSave());
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -55,6 +52,10 @@ public class EditRegistratioActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerWeeks.setAdapter(adapter);
+
+        loadIfEdit();
+
+        btnSave.setOnClickListener(v -> onSave());
     }
 
     private void initViews() {
@@ -101,9 +102,14 @@ public class EditRegistratioActivity extends AppCompatActivity {
         cbSat.setChecked(days.contains("6"));
         cbSun.setChecked(days.contains("7"));
 
-        int v = r.getRepeatEveryWeeks();   // 0..4
+        int v = r.getRepeatEveryWeeks();
         if (v < 0) v = 0;
-        if (v > 4) v = 4;
+
+        int max = spinnerWeeks.getAdapter() != null
+                ? spinnerWeeks.getAdapter().getCount() - 1
+                : 0;
+
+        if (v > max) v = max;
         spinnerWeeks.setSelection(v);
     }
 

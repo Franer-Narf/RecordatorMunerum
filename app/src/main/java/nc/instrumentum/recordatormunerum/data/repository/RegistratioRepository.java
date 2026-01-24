@@ -22,9 +22,10 @@ public class RegistratioRepository {
 
     // Insertar tarea
     public void insert(Registratio registratio) {
-        registratioDao.insert(
+        long id = registratioDao.insert(
                 RegistratioMapper.toEntity(registratio)
         );
+        registratio.setId((int) id);
     }
 
     // Obtener tareas activas

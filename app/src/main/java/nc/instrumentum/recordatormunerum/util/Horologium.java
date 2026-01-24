@@ -115,10 +115,18 @@ public final class Horologium {
 
     private static boolean contieneValor(String csv, int value) {
 
+        if (csv == null || csv.trim().isEmpty()) {
+            return false;
+        }
+
         String[] parts = csv.split(",");
 
         for (String p : parts) {
-            if (Integer.parseInt(p.trim()) == value) {
+            String trimmed = p.trim();
+            if (trimmed.isEmpty()) {
+                continue;
+            }
+            if (Integer.parseInt(trimmed) == value) {
                 return true;
             }
         }
@@ -127,16 +135,22 @@ public final class Horologium {
 
     private static boolean cumplePatronMensual(String pattern, Calendar now) {
 
-        Calendar endar = Calendar.getInstance();                            //Get the currently exact time.
-        int diaActual = endar.get(Calendar.DAY_OF_WEEK);                    //Get the today's day name (number).
-        int diaMesActual = endar.get(Calendar.DAY_OF_MONTH);                //Get today's month number.
-        int ultimoDia = endar.getActualMaximum(Calendar.DAY_OF_MONTH);      //Get last number of the day in this month.
+        if (pattern == null || pattern.isEmpty()) {
+            return false;
+        }
 
-        String[] texto = pattern.split("_");                          // Get th prefix and suffix of pattern.
+        String[] texto = pattern.split("_");                          // FORMATO: ORDEN_DIA (FIRST_MONDAY)
+        if (texto.length != 2) {
+            return false;
+        }
 
-        int textoFinal = resolverDia(texto[0]);
+        int diaActual = now.get(Calendar.DAY_OF_WEEK);                     // Get the today's day name (number).
+        int diaMesActual = now.get(Calendar.DAY_OF_MONTH);                 // Get today's month number.
+        int ultimoDia = now.getActualMaximum(Calendar.DAY_OF_MONTH);       // Get last number of the day in this month.                          // Get th prefix and suffix of pattern.
 
-        switch (texto[1]) {
+        int textoFinal = resolverDia(texto[1]);
+
+        switch (texto[0]) {
             case "FIRST":		//1 - 7
                 if(diaMesActual <= 7 && diaActual == textoFinal) {
                     return true;}

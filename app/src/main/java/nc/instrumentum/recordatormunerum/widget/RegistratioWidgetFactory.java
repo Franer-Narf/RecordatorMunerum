@@ -57,7 +57,7 @@ public class RegistratioWidgetFactory
         );
 
         Intent fillInIntent = new Intent();
-        fillInIntent.putExtra("REGISTRATIO_ID", r.getId());
+        fillInIntent.putExtra("id", r.getId());
 
         rv.setOnClickFillInIntent(
                 R.id.widget_item_root,
