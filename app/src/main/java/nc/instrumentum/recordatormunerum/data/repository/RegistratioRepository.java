@@ -45,9 +45,10 @@ public class RegistratioRepository {
 
     public void save(Registratio r) {
         if (r.getId() == 0) {
-            registratioDao.insert(
+            long newId = registratioDao.insert(
                     RegistratioMapper.toEntity(r)
             );
+            r.setId((int) newId);
         } else {
             registratioDao.update(
                     RegistratioMapper.toEntity(r)

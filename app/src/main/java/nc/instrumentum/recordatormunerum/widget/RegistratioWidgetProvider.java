@@ -35,7 +35,7 @@ public class RegistratioWidgetProvider extends AppWidgetProvider {
                     serviceIntent
             );
 
-            // 🔑 TEMPLATE DE CLICK (ESTO FALTABA)
+            // CLICK
             Intent clickIntent =
                     new Intent(context, EditRegistratioActivity.class);
 
@@ -45,7 +45,7 @@ public class RegistratioWidgetProvider extends AppWidgetProvider {
                             0,
                             clickIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
-                                    | PendingIntent.FLAG_IMMUTABLE
+                                    | PendingIntent.FLAG_MUTABLE
                     );
 
             views.setPendingIntentTemplate(

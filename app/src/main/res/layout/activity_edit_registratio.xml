@@ -61,6 +61,71 @@
             android:id="@+id/spinnerWeeks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+			
+		 <TextView
+            android:text="Días del mes (CSV, 32 = todos)"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editMonthDays"
+            android:hint="Ej: 1,15,30 o 32"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Meses del año (CSV, 13 = todos)"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editYearMonths"
+            android:hint="Ej: 1,6,12 o 13"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Patrón mensual (p.ej. FIRST_MONDAY)"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editMonthlyPattern"
+            android:hint="FIRST_MONDAY"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Fecha inicio (millis)"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editStartDateMillis"
+            android:hint="System.currentTimeMillis()"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Fecha fin (millis, opcional)"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editEndDateMillis"
+            android:hint="Vacío = sin fin"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnSave"

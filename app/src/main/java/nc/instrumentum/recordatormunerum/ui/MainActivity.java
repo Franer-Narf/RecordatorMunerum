@@ -19,6 +19,7 @@ import java.util.List;
 import nc.instrumentum.recordatormunerum.R;
 import nc.instrumentum.recordatormunerum.data.repository.RegistratioRepository;
 import nc.instrumentum.recordatormunerum.model.Registratio;
+import nc.instrumentum.recordatormunerum.util.WorkScheduler;
 
 import android.Manifest;
 import android.os.Build;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        WorkScheduler.scheduleDaily(getApplicationContext());
 
         notifPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
