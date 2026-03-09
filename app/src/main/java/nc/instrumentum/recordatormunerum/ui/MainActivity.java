@@ -1,33 +1,28 @@
 package nc.instrumentum.recordatormunerum.ui;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nc.instrumentum.recordatormunerum.R;
+import nc.instrumentum.recordatormunerum.alarm.RegistratioAlarmScheduler;
 import nc.instrumentum.recordatormunerum.data.repository.RegistratioRepository;
 import nc.instrumentum.recordatormunerum.model.Registratio;
 import nc.instrumentum.recordatormunerum.util.WorkScheduler;
-
-import android.Manifest;
-import android.os.Build;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.content.ContextCompat;
-import android.content.pm.PackageManager;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,36 +37,98 @@ public class MainActivity extends AppCompatActivity {
 
         WorkScheduler.scheduleDaily(getApplicationContext());
 
-        notifPermissionLauncher =
-                registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
-                    // si quieres, muestra toast si deniega, pero no es obligatorio
-                });
+        notifPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                granted -> {
+                    // No additional action needed.
+                }
+        );
 
         requestNotifPermissionIfNeeded();
+
+        repo = new RegistratioRepository(this);
 
         RecyclerView recycler = findViewById(R.id.recyclerRegistratio);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        repo = new RegistratioRepository(this);
+        adapter = new RegistratioAdapter(new ArrayList<>(), new RegistratioAdapter.Listener() {
+            @Override
+            public void onOpen(Registratio registratio) {
+                openEditor(registratio.getId());
+            }
 
-        adapter = new RegistratioAdapter(new ArrayList<>());
+            @Override
+            public void onLongPress(Registratio registratio) {
+                confirmDeleteOne(registratio);
+            }
+        });
         recycler.setAdapter(adapter);
 
-        FloatingActionButton fab = findViewById(R.id.fabAddRegistratio);
-
-        fab.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EditRegistratioActivity.class);
-            startActivity(intent);
-        });
+        findViewById(R.id.btnQuickAdd).setOnClickListener(v -> openEditor());
+        findViewById(R.id.btnDeleteAll).setOnClickListener(v -> confirmDeleteAll());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        loadData();
+    }
 
+    private void loadData() {
         new Thread(() -> {
             List<Registratio> data = repo.getActivas();
-            runOnUiThread(() -> adapter.setData(data)); // o adapter.updateData(data)
+            runOnUiThread(() -> adapter.setData(data));
+        }).start();
+    }
+
+    private void openEditor() {
+        startActivity(new Intent(this, EditRegistratioActivity.class));
+    }
+
+    private void openEditor(int id) {
+        Intent intent = new Intent(this, EditRegistratioActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
+    private void confirmDeleteOne(Registratio registratio) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.main_dialog_delete_one_title)
+                .setMessage(getString(R.string.main_dialog_delete_one_message, registratio.getTitle()))
+                .setPositiveButton(R.string.main_dialog_confirm, (dialog, which) -> deleteOne(registratio))
+                .setNegativeButton(R.string.main_dialog_cancel, null)
+                .show();
+    }
+
+    private void deleteOne(Registratio registratio) {
+        new Thread(() -> {
+            repo.deleteById(registratio.getId());
+            RegistratioAlarmScheduler.cancelOne(MainActivity.this, registratio.getId());
+            runOnUiThread(this::loadData);
+        }).start();
+    }
+
+    private void confirmDeleteAll() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.main_dialog_delete_all_title)
+                .setMessage(R.string.main_dialog_delete_all_message)
+                .setPositiveButton(R.string.main_dialog_confirm, (dialog, which) -> deleteAllActive())
+                .setNegativeButton(R.string.main_dialog_cancel, null)
+                .show();
+    }
+
+    private void deleteAllActive() {
+        new Thread(() -> {
+            List<Registratio> activeItems = repo.getActivas();
+            for (Registratio registratio : activeItems) {
+                RegistratioAlarmScheduler.cancelOne(MainActivity.this, registratio.getId());
+            }
+            repo.deleteAllActivas();
+
+            runOnUiThread(() -> {
+                loadData();
+                Toast.makeText(this, R.string.main_toast_deleted_all, Toast.LENGTH_SHORT).show();
+            });
         }).start();
     }
 
@@ -82,6 +139,5 @@ public class MainActivity extends AppCompatActivity {
                 notifPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
-
     }
 }

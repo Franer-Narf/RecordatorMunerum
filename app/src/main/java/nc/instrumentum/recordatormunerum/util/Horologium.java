@@ -6,46 +6,55 @@ import nc.instrumentum.recordatormunerum.model.Registratio;
 
 public final class Horologium {
 
+    private static final long ONE_WEEK_MILLIS = 7L * 24L * 60L * 60L * 1000L;
+
     private Horologium() {
     }
 
     public static boolean tocaHoy(Registratio r) {
-
-        if (!r.getActive()) return false;
-
-        Calendar now = Calendar.getInstance();
-
-        if (!dentroDeRango(r, now)) return false;
-        if (!pasaFiltroSemanas(r, now)) return false;
-        if (!pasaFiltroDiasSemana(r, now)) return false;
-        if (!pasaFiltroMensual(r, now)) return false;
-        if (!pasaFiltroAnual(r, now)) return false;
-
-        return true;
-    }
-
-    public static boolean tocaHoy(Registratio r, long millis) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(millis);
-
-        if (!dentroDeRango(r, cal)) return false;
-        if (!pasaFiltroSemanas(r, cal)) return false;
-        if (!pasaFiltroDiasSemana(r, cal)) return false;
-        if (!pasaFiltroMensual(r, cal)) return false;
-        if (!pasaFiltroAnual(r, cal)) return false;
-
-        return true;
-    }
-
-
-    private static boolean dentroDeRango(Registratio r, Calendar now) {
-
-        if (now.getTimeInMillis() < r.getStartDateMillis()) {
+        if (r == null || !r.getActive()) {
             return false;
         }
 
-        if (r.getEndDateMillis() != null &&
-                now.getTimeInMillis() > r.getEndDateMillis()) {
+        Calendar now = Calendar.getInstance();
+        return tocaEnFecha(r, now);
+    }
+
+    public static boolean tocaHoy(Registratio r, long millis) {
+        if (r == null || !r.getActive()) {
+            return false;
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(millis);
+        return tocaEnFecha(r, cal);
+    }
+
+    private static boolean tocaEnFecha(Registratio r, Calendar now) {
+        if (!dentroDeRango(r, now)) {
+            return false;
+        }
+        if (!pasaFiltroSemanas(r, now)) {
+            return false;
+        }
+        if (!pasaFiltroDiasSemana(r, now)) {
+            return false;
+        }
+        if (!pasaFiltroMensual(r, now)) {
+            return false;
+        }
+        return pasaFiltroAnual(r, now);
+    }
+
+    private static boolean dentroDeRango(Registratio r, Calendar now) {
+        long nowMillis = now.getTimeInMillis();
+
+        if (r.getStartDateMillis() > 0 && nowMillis < r.getStartDateMillis()) {
+            return false;
+        }
+
+        Long endDateMillis = r.getEndDateMillis();
+        if (endDateMillis != null && endDateMillis > 0 && nowMillis > endDateMillis) {
             return false;
         }
 
@@ -53,18 +62,31 @@ public final class Horologium {
     }
 
     private static boolean pasaFiltroSemanas(Registratio r, Calendar now) {
-
         int repeat = r.getRepeatEveryWeeks();
-        if (repeat == 0) return true;
+        if (repeat <= 0) {
+            return true;
+        }
+
+        long startMillis = r.getStartDateMillis();
+        if (startMillis <= 0) {
+            return true;
+        }
 
         Calendar start = Calendar.getInstance();
-        start.setTimeInMillis(r.getStartDateMillis());
+        start.setTimeInMillis(startMillis);
+        normalizeToDayStart(start);
 
-        long diffMillis = now.getTimeInMillis() - start.getTimeInMillis();
-        long weeks = diffMillis / (7L * 24 * 60 * 60 * 1000);
+        Calendar current = (Calendar) now.clone();
+        normalizeToDayStart(current);
+
+        long diffMillis = current.getTimeInMillis() - start.getTimeInMillis();
+        if (diffMillis < 0) {
+            return false;
+        }
+
+        long weeks = diffMillis / ONE_WEEK_MILLIS;
 
         if (repeat == 4) {
-            // semanas alternas: 0,2,4...
             return weeks % 2 == 0;
         }
 
@@ -72,136 +94,152 @@ public final class Horologium {
     }
 
     private static boolean pasaFiltroDiasSemana(Registratio r, Calendar now) {
-
         String days = r.getWeekDays();
 
-        if (days == null || days.equals("0")) return true;
-        if (days.equals("8")) return true;
+        if (days == null || days.trim().isEmpty() || "0".equals(days) || "8".equals(days)) {
+            return true;
+        }
 
-        int today = now.get(Calendar.DAY_OF_WEEK);
-        // Calendar.SUNDAY = 1 ... SATURDAY = 7
+        int todayCalendar = now.get(Calendar.DAY_OF_WEEK);
+        int todayLegacy = calendarDayToLegacy(todayCalendar);
 
-        return contieneValor(days, today);
+        return contieneValor(days, todayCalendar) || contieneValor(days, todayLegacy);
     }
 
     private static boolean pasaFiltroMensual(Registratio r, Calendar now) {
-
-        // Patrón mensual tiene prioridad
-        if (r.getMonthlyPattern() != null && !r.getMonthlyPattern().isEmpty()) {
-            return cumplePatronMensual(r.getMonthlyPattern(), now);
+        String monthlyPattern = r.getMonthlyPattern();
+        if (monthlyPattern != null && !monthlyPattern.trim().isEmpty()) {
+            return cumplePatronMensual(monthlyPattern.trim(), now);
         }
 
         String monthDays = r.getMonthDays();
-
-        if (monthDays == null || monthDays.equals("0")) return true;
-        if (monthDays.equals("32")) return true;
+        if (monthDays == null || monthDays.trim().isEmpty() || "0".equals(monthDays) || "32".equals(monthDays)) {
+            return true;
+        }
 
         int dayOfMonth = now.get(Calendar.DAY_OF_MONTH);
-
         return contieneValor(monthDays, dayOfMonth);
     }
 
     private static boolean pasaFiltroAnual(Registratio r, Calendar now) {
-
         String months = r.getYearMonths();
 
-        if (months == null || months.equals("0")) return true;
-        if (months.equals("13")) return true;
+        if (months == null || months.trim().isEmpty() || "0".equals(months) || "13".equals(months)) {
+            return true;
+        }
 
         int month = now.get(Calendar.MONTH) + 1;
-
         return contieneValor(months, month);
     }
 
     private static boolean contieneValor(String csv, int value) {
-
         if (csv == null || csv.trim().isEmpty()) {
             return false;
         }
 
-        String[] parts = csv.split(",");
-
-        for (String p : parts) {
+        for (String p : csv.split(",")) {
             String trimmed = p.trim();
             if (trimmed.isEmpty()) {
                 continue;
             }
-            if (Integer.parseInt(trimmed) == value) {
-                return true;
+
+            try {
+                if (Integer.parseInt(trimmed) == value) {
+                    return true;
+                }
+            } catch (NumberFormatException ignored) {
+                // Ignore malformed legacy tokens.
             }
         }
+
         return false;
     }
 
     private static boolean cumplePatronMensual(String pattern, Calendar now) {
-
-        if (pattern == null || pattern.isEmpty()) {
+        String[] parts = pattern.split("_");
+        if (parts.length != 2) {
             return false;
         }
 
-        String[] texto = pattern.split("_");                          // FORMATO: ORDEN_DIA (FIRST_MONDAY)
-        if (texto.length != 2) {
+        int expectedDay = resolverDia(parts[1]);
+        if (expectedDay == 0) {
             return false;
         }
 
-        int diaActual = now.get(Calendar.DAY_OF_WEEK);                     // Get the today's day name (number).
-        int diaMesActual = now.get(Calendar.DAY_OF_MONTH);                 // Get today's month number.
-        int ultimoDia = now.getActualMaximum(Calendar.DAY_OF_MONTH);       // Get last number of the day in this month.                          // Get th prefix and suffix of pattern.
+        int dayOfMonth = now.get(Calendar.DAY_OF_MONTH);
+        int dayOfWeek = now.get(Calendar.DAY_OF_WEEK);
 
-        int textoFinal = resolverDia(texto[1]);
-
-        switch (texto[0]) {
-            case "FIRST":		//1 - 7
-                if(diaMesActual <= 7 && diaActual == textoFinal) {
-                    return true;}
-                break;
-            case "SECOND":	//8-14
-                if(diaMesActual >= 8 && diaMesActual <= 14 && diaActual == textoFinal) {
-                    return true;}
-                break;
-            case "THIRD":		//15 - 21
-                if(diaMesActual >= 15 && diaMesActual <= 21 && diaActual == textoFinal) {
-                    return true;}
-                break;
-            case "FOURTH":	//22 - 28
-                if(diaMesActual >= 22 && diaMesActual <= 28 && diaActual == textoFinal) {
-                    return true;}
-                break;
-            case "LAST":		//maxDiasMes-7 - maxDiasMes
-                for (int i = 0; (ultimoDia-i) > (ultimoDia-7); i++) {
-                if(diaMesActual == ultimoDia-i && diaActual == textoFinal) {
-                    return true;}}
-            break;
+        if (dayOfWeek != expectedDay) {
+            return false;
         }
-        return false;
+
+        switch (parts[0]) {
+            case "FIRST":
+                return dayOfMonth <= 7;
+            case "SECOND":
+                return dayOfMonth >= 8 && dayOfMonth <= 14;
+            case "THIRD":
+                return dayOfMonth >= 15 && dayOfMonth <= 21;
+            case "FOURTH":
+                return dayOfMonth >= 22 && dayOfMonth <= 28;
+            case "LAST":
+                Calendar last = (Calendar) now.clone();
+                last.set(Calendar.DAY_OF_MONTH, last.getActualMaximum(Calendar.DAY_OF_MONTH));
+                while (last.get(Calendar.DAY_OF_WEEK) != expectedDay) {
+                    last.add(Calendar.DAY_OF_MONTH, -1);
+                }
+                return dayOfMonth == last.get(Calendar.DAY_OF_MONTH);
+            default:
+                return false;
+        }
     }
 
-    private static int resolverDia(String subfix) {
-        int aux = 0;
-
-        switch (subfix) {
+    private static int resolverDia(String suffix) {
+        switch (suffix) {
             case "MONDAY":
-                aux = Calendar.MONDAY;
-            break;
+                return Calendar.MONDAY;
             case "TUESDAY":
-                aux = Calendar.TUESDAY;
-           break;
+                return Calendar.TUESDAY;
             case "WEDNESDAY":
-                aux = Calendar.WEDNESDAY;
-            break;
+                return Calendar.WEDNESDAY;
             case "THURSDAY":
-                aux = Calendar.THURSDAY;
-            break;
+                return Calendar.THURSDAY;
             case "FRIDAY":
-                aux = Calendar.FRIDAY;
-            break;
+                return Calendar.FRIDAY;
             case "SATURDAY":
-                aux = Calendar.SATURDAY;
-            break;
+                return Calendar.SATURDAY;
             case "SUNDAY":
-                aux = Calendar.SUNDAY;
-            break;
+                return Calendar.SUNDAY;
+            default:
+                return 0;
         }
-        return aux;
+    }
+
+    private static int calendarDayToLegacy(int calendarDay) {
+        switch (calendarDay) {
+            case Calendar.MONDAY:
+                return 1;
+            case Calendar.TUESDAY:
+                return 2;
+            case Calendar.WEDNESDAY:
+                return 3;
+            case Calendar.THURSDAY:
+                return 4;
+            case Calendar.FRIDAY:
+                return 5;
+            case Calendar.SATURDAY:
+                return 6;
+            case Calendar.SUNDAY:
+                return 7;
+            default:
+                return calendarDay;
+        }
+    }
+
+    private static void normalizeToDayStart(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
     }
 }

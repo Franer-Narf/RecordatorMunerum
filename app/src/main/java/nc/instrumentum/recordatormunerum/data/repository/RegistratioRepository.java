@@ -20,22 +20,16 @@ public class RegistratioRepository {
         registratioDao = db.registratioDao();
     }
 
-    // Insertar tarea
     public void insert(Registratio registratio) {
-        long id = registratioDao.insert(
-                RegistratioMapper.toEntity(registratio)
-        );
+        long id = registratioDao.insert(RegistratioMapper.toEntity(registratio));
         registratio.setId((int) id);
     }
 
-    // Obtener tareas activas
     public List<Registratio> getActivas() {
         List<Registratio> result = new ArrayList<>();
-
         for (RegistratioEntity entity : registratioDao.getActivas()) {
             result.add(RegistratioMapper.toModel(entity));
         }
-
         return result;
     }
 
@@ -43,47 +37,40 @@ public class RegistratioRepository {
         registratioDao.desactivar(id);
     }
 
+    public void deleteById(int id) {
+        registratioDao.deleteById(id);
+    }
+
+    public void deleteAllActivas() {
+        registratioDao.deleteAllActivas();
+    }
+
     public void save(Registratio r) {
         if (r.getId() == 0) {
-            long newId = registratioDao.insert(
-                    RegistratioMapper.toEntity(r)
-            );
+            long newId = registratioDao.insert(RegistratioMapper.toEntity(r));
             r.setId((int) newId);
         } else {
-            registratioDao.update(
-                    RegistratioMapper.toEntity(r)
-            );
+            registratioDao.update(RegistratioMapper.toEntity(r));
         }
     }
 
     public Registratio getById(int id) {
-        return RegistratioMapper.toModel(
-                registratioDao.getById(id)
-        );
+        return RegistratioMapper.toModel(registratioDao.getById(id));
     }
 
     public List<Registratio> getAll() {
-
         List<Registratio> result = new ArrayList<>();
-
         for (RegistratioEntity entity : registratioDao.getAll()) {
-            result.add(
-                    RegistratioMapper.toModel(entity)
-            );
+            result.add(RegistratioMapper.toModel(entity));
         }
-
         return result;
     }
 
     public List<Registratio> getAllActivas() {
         List<Registratio> result = new ArrayList<>();
-
         for (RegistratioEntity entity : registratioDao.getAllActivas()) {
             result.add(RegistratioMapper.toModel(entity));
         }
-
         return result;
     }
-
 }
-

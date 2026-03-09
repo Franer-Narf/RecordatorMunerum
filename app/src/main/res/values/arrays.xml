@@ -1,9 +1,97 @@
 <resources>
     <string-array name="repeat_weeks_options">
-        <item>No repetir por semanas</item>   <!-- 0 -->
-        <item>Cada semana</item>              <!-- 1 -->
-        <item>Cada 2 semanas</item>           <!-- 2 -->
-        <item>Cada 3 semanas</item>           <!-- 3 -->
-        <item>Semanas alternas</item>         <!-- 4 (tu caso especial) -->
+        <item>No repetir por semanas</item>
+        <item>Cada semana</item>
+        <item>Cada 2 semanas</item>
+        <item>Cada 3 semanas</item>
+        <item>Semanas alternas</item>
+    </string-array>
+
+    <string-array name="monthly_pattern_labels">
+        <item>Sin patron</item>
+
+        <item>Primer lunes</item>
+        <item>Primer martes</item>
+        <item>Primer miercoles</item>
+        <item>Primer jueves</item>
+        <item>Primer viernes</item>
+        <item>Primer sabado</item>
+        <item>Primer domingo</item>
+
+        <item>Segundo lunes</item>
+        <item>Segundo martes</item>
+        <item>Segundo miercoles</item>
+        <item>Segundo jueves</item>
+        <item>Segundo viernes</item>
+        <item>Segundo sabado</item>
+        <item>Segundo domingo</item>
+
+        <item>Tercer lunes</item>
+        <item>Tercer martes</item>
+        <item>Tercer miercoles</item>
+        <item>Tercer jueves</item>
+        <item>Tercer viernes</item>
+        <item>Tercer sabado</item>
+        <item>Tercer domingo</item>
+
+        <item>Cuarto lunes</item>
+        <item>Cuarto martes</item>
+        <item>Cuarto miercoles</item>
+        <item>Cuarto jueves</item>
+        <item>Cuarto viernes</item>
+        <item>Cuarto sabado</item>
+        <item>Cuarto domingo</item>
+
+        <item>Ultimo lunes</item>
+        <item>Ultimo martes</item>
+        <item>Ultimo miercoles</item>
+        <item>Ultimo jueves</item>
+        <item>Ultimo viernes</item>
+        <item>Ultimo sabado</item>
+        <item>Ultimo domingo</item>
+    </string-array>
+
+    <string-array name="monthly_pattern_values">
+        <item></item>
+
+        <item>FIRST_MONDAY</item>
+        <item>FIRST_TUESDAY</item>
+        <item>FIRST_WEDNESDAY</item>
+        <item>FIRST_THURSDAY</item>
+        <item>FIRST_FRIDAY</item>
+        <item>FIRST_SATURDAY</item>
+        <item>FIRST_SUNDAY</item>
+
+        <item>SECOND_MONDAY</item>
+        <item>SECOND_TUESDAY</item>
+        <item>SECOND_WEDNESDAY</item>
+        <item>SECOND_THURSDAY</item>
+        <item>SECOND_FRIDAY</item>
+        <item>SECOND_SATURDAY</item>
+        <item>SECOND_SUNDAY</item>
+
+        <item>THIRD_MONDAY</item>
+        <item>THIRD_TUESDAY</item>
+        <item>THIRD_WEDNESDAY</item>
+        <item>THIRD_THURSDAY</item>
+        <item>THIRD_FRIDAY</item>
+        <item>THIRD_SATURDAY</item>
+        <item>THIRD_SUNDAY</item>
+
+        <item>FOURTH_MONDAY</item>
+        <item>FOURTH_TUESDAY</item>
+        <item>FOURTH_WEDNESDAY</item>
+        <item>FOURTH_THURSDAY</item>
+        <item>FOURTH_FRIDAY</item>
+        <item>FOURTH_SATURDAY</item>
+        <item>FOURTH_SUNDAY</item>
+
+        <item>LAST_MONDAY</item>
+        <item>LAST_TUESDAY</item>
+        <item>LAST_WEDNESDAY</item>
+        <item>LAST_THURSDAY</item>
+        <item>LAST_FRIDAY</item>
+        <item>LAST_SATURDAY</item>
+        <item>LAST_SUNDAY</item>
     </string-array>
 </resources>

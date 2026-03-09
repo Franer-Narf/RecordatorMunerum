@@ -1,48 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/app_background">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="18dp"
-        android:paddingTop="18dp"
-        android:paddingEnd="18dp"
-        android:paddingBottom="22dp">
-
-        <TextView
-            style="@style/TextAppearance.RecordatorMunerum.Display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_edit_alarm"
-            android:textSize="22sp" />
+        android:padding="16dp">
 
         <EditText
             android:id="@+id/editTitle"
-            style="@style/Widget.RecordatorMunerum.Input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="@string/hint_title"
-            android:inputType="textCapSentences"
-            android:maxLines="1" />
+            android:hint="@string/hint_title" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="@string/label_week_days"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="16dp"
+            android:text="@string/label_week_days" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <CheckBox
@@ -91,178 +72,128 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_time"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:text="@string/label_time" />
 
         <TextView
             android:id="@+id/tvSelectedTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/value_not_set"
-            android:textColor="@color/app_text_primary"
-            android:textSize="16sp" />
+            android:text="@string/value_not_set" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnPickTime"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/action_select_time" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_repeat_every"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="16dp"
+            android:text="@string/label_repeat_every" />
 
         <Spinner
             android:id="@+id/spinnerWeeks"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_monthly_pattern"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinnerMonthlyPattern"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_month_days"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="16dp"
+            android:text="@string/label_month_days" />
 
         <TextView
             android:id="@+id/tvMonthDaysValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/value_all_month_days"
-            android:textColor="@color/app_text_primary" />
+            android:text="@string/value_all_month_days" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnSelectMonthDays"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/action_select_month_days" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_year_months"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:text="@string/label_year_months" />
 
         <TextView
             android:id="@+id/tvYearMonthsValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/value_all_year_months"
-            android:textColor="@color/app_text_primary" />
+            android:text="@string/value_all_year_months" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnSelectYearMonths"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/action_select_year_months" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_start_date"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:text="@string/label_monthly_pattern" />
+
+        <Spinner
+            android:id="@+id/spinnerMonthlyPattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/label_start_date" />
 
         <TextView
             android:id="@+id/tvStartDateValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/value_not_set"
-            android:textColor="@color/app_text_primary" />
+            android:text="@string/value_not_set" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnPickStartDate"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/action_select_start_date" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="@string/label_end_date"
-            android:textColor="@color/app_text_secondary"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:text="@string/label_end_date" />
 
         <TextView
             android:id="@+id/tvEndDateValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/value_no_end_date"
-            android:textColor="@color/app_text_primary" />
+            android:text="@string/value_no_end_date" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnPickEndDate"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/action_select_end_date" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnClearEndDate"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="@string/action_clear_end_date" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnSave"
-            style="@style/Widget.RecordatorMunerum.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:text="@string/action_save" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDelete"
-            style="@style/Widget.RecordatorMunerum.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/action_delete_alarm"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
-            app:backgroundTint="#B24452" />
 
     </LinearLayout>
 

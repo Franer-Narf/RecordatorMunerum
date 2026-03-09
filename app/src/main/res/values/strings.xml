@@ -1,5 +1,82 @@
 <resources>
     <string name="app_name">Recordator Munerum</string>
-	<string name="widget_complete">Completar</string>
-	<string name="widget_open_app">Abrir app</string>
+    <string name="widget_complete">Completar</string>
+    <string name="widget_open_app">Abrir app</string>
+
+    <string name="main_title">ALARMAS PROGRAMADAS</string>
+    <string name="main_hint_item">TITULO DEL RECORDATORIO</string>
+    <string name="main_hint_time">HORA DEL RECORDATORIO (HH:MM)</string>
+    <string name="main_action_add">NUEVA ALARMA</string>
+    <string name="main_hint_delete_press">MANTENER PULSADO PARA ELIMINAR</string>
+    <string name="main_action_delete_all">ELIMINAR TODOS</string>
+    <string name="main_error_title_empty">Escribe el titulo del recordatorio.</string>
+    <string name="main_error_time_invalid">Usa formato HH:MM (24h).</string>
+    <string name="main_toast_added">Recordatorio guardado.</string>
+    <string name="main_toast_deleted_all">Todos los recordatorios se han eliminado.</string>
+    <string name="main_item_subtitle">%1$02d:%2$02d - %3$s</string>
+    <string name="main_repeat_none">Sin repeticion semanal</string>
+    <string name="main_pattern_label">Patron: %1$s</string>
+    <string name="main_pattern_unknown">Patron personalizado</string>
+    <string name="main_dialog_delete_one_title">Eliminar recordatorio</string>
+    <string name="main_dialog_delete_one_message">Se eliminara "%1$s".</string>
+    <string name="main_dialog_delete_all_title">Eliminar todos</string>
+    <string name="main_dialog_delete_all_message">Se eliminaran todos los recordatorios activos.</string>
+    <string name="main_dialog_confirm">Eliminar</string>
+    <string name="main_dialog_cancel">Cancelar</string>
+
+    <string name="label_edit_alarm">CONFIGURAR ALARMA</string>
+
+    <string name="label_week_days">Dias de la semana</string>
+    <string name="day_short_mon">L</string>
+    <string name="day_short_tue">M</string>
+    <string name="day_short_wed">X</string>
+    <string name="day_short_thu">J</string>
+    <string name="day_short_fri">V</string>
+    <string name="day_short_sat">S</string>
+    <string name="day_short_sun">D</string>
+
+    <string name="hint_title">Titulo</string>
+    <string name="label_time">Hora</string>
+    <string name="label_repeat_every">Repetir cada</string>
+    <string name="label_month_days">Dias del mes</string>
+    <string name="label_year_months">Meses del ano</string>
+    <string name="label_monthly_pattern">Patron mensual</string>
+    <string name="label_start_date">Fecha inicio</string>
+    <string name="label_end_date">Fecha fin</string>
+
+    <string name="action_select_time">Seleccionar hora</string>
+    <string name="action_select_month_days">Seleccionar dias del mes</string>
+    <string name="action_select_year_months">Seleccionar meses del ano</string>
+    <string name="action_select_start_date">Seleccionar fecha de inicio</string>
+    <string name="action_select_end_date">Seleccionar fecha de fin</string>
+    <string name="action_clear_end_date">Quitar fecha fin</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_delete_alarm">Eliminar alarma</string>
+
+    <string name="value_not_set">Sin definir</string>
+    <string name="value_no_end_date">Sin fecha de fin</string>
+    <string name="value_all_month_days">Todos los dias del mes</string>
+    <string name="value_all_year_months">Todos los meses del ano</string>
+    <string name="value_month_days_selected">Dias del mes: %1$s</string>
+    <string name="value_year_months_selected">Meses del ano: %1$s</string>
+    <string name="value_legacy_kept">Valor legado: %1$s</string>
+    <string name="value_time_format">%1$02d:%2$02d</string>
+    <string name="value_date_format">%1$s</string>
+    <string name="value_month_format">Mes %1$d</string>
+
+    <string name="error_title_empty">El titulo no puede estar vacio</string>
+    <string name="error_end_before_start">La fecha fin no puede ser anterior a la fecha inicio</string>
+    <string name="error_last_friday_with_weekly_repeat">No puedes combinar "Ultimo viernes" con "Cada semana".</string>
+
+    <string name="dialog_select_month_days_title">Seleccionar dias del mes</string>
+    <string name="dialog_select_year_months_title">Seleccionar meses del ano</string>
+    <string name="dialog_select_all">Todos</string>
+    <string name="dialog_accept">Aceptar</string>
+    <string name="dialog_cancel">Cancelar</string>
+
+    <string name="dialog_delete_alarm_title">Eliminar alarma</string>
+    <string name="dialog_delete_alarm_message">Se eliminara "%1$s" y su proxima notificacion.</string>
+    <string name="dialog_delete_alarm_confirm">Eliminar</string>
+
+    <string name="label_legacy_pattern">Legado: %1$s</string>
 </resources>

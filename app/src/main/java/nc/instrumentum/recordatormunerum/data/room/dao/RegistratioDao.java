@@ -9,7 +9,6 @@ import java.util.List;
 
 import nc.instrumentum.recordatormunerum.data.room.entity.RegistratioEntity;
 
-
 @Dao
 public interface RegistratioDao {
 
@@ -22,6 +21,12 @@ public interface RegistratioDao {
     @Query("UPDATE registratio SET activa = 0 WHERE id = :id")
     void desactivar(int id);
 
+    @Query("DELETE FROM registratio WHERE id = :id")
+    void deleteById(int id);
+
+    @Query("DELETE FROM registratio WHERE activa = 1")
+    void deleteAllActivas();
+
     @Update
     void update(RegistratioEntity entity);
 
@@ -33,6 +38,4 @@ public interface RegistratioDao {
 
     @Query("SELECT * FROM registratio WHERE activa = 1")
     List<RegistratioEntity> getAllActivas();
-
-
 }

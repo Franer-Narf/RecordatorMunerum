@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.RecordatorMunerum.Display" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:fontFamily">@font/ncbgm</item>
+        <item name="android:textColor">@color/app_text_secondary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.16</item>
+    </style>
+
+    <style name="TextAppearance.RecordatorMunerum.Note" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/ncbgm</item>
+        <item name="android:textColor">@color/app_text_secondary</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.14</item>
+    </style>
+
+    <style name="ShapeAppearance.RecordatorMunerum.CutButton" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">14dp</item>
+    </style>
+
+    <style name="Widget.RecordatorMunerum.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:fontFamily">@font/ncbgm</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.12</item>
+        <item name="android:textColor">@color/app_button_text</item>
+        <item name="backgroundTint">@color/app_button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.RecordatorMunerum.CutButton</item>
+    </style>
+
+    <style name="Widget.RecordatorMunerum.Input" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_input_line</item>
+        <item name="android:textColor">@color/app_text_primary</item>
+        <item name="android:textColorHint">@color/app_text_hint</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/ncbgm</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+</resources>
